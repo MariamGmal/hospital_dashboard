@@ -1,0 +1,24 @@
+.departments-container {
+    padding: 20px;
+  }
+  
+  .department {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  ul li {
+    padding: 5px 0;
+    font-size: 16px;
+    color: #606161;
+  }
+  
+

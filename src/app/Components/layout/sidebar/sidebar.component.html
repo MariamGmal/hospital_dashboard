@@ -1,0 +1,123 @@
+<div class="container-fluid p-2" style="width: 100%">
+  <a
+    [routerLink]="['']"
+    class="hder text-center mb-3 text-light text-decoration-none"
+  >
+    <i class="fa-solid fa-hospital"></i>
+    <span class="fs-4">-Hospital</span>
+  </a>
+  <hr class="bg-light" />
+  <ul class="n-bar nav nav-pills mb-auto">
+    <li class="nav-item">
+      <a
+        routerLink="dashboard"
+        class="nav-link text-custom"
+        routerLinkActive="active-r"
+      >
+        <i class="fa-solid fa-chart-pie"></i>
+        Dashboard
+      </a>
+    </li>
+    @if(role == "admin"){
+    <li class="nav-item">
+      <a
+        [routerLink]="['/patients']"
+        routerLinkActive="active-r"
+        class="nav-link text-custom"
+      >
+        <i class="fa-solid fa-users"></i>
+        Patients
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        [routerLink]="['/appointment']"
+        routerLinkActive="active-r"
+        class="nav-link text-custom"
+      >
+        <i class="fa-solid fa-calendar-check"></i>
+        Appointments
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        [routerLink]="['/doctor']"
+        routerLinkActive="active-r"
+        class="nav-link text-custom"
+      >
+        <i class="fa-solid fa-user-md"></i>
+        Doctors
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        [routerLink]="['/department']"
+        routerLinkActive="active-r"
+        class="nav-link text-custom"
+      >
+        <i class="fa-solid fa-building"></i>
+        Department
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link text-custom"
+        [routerLink]="['/blog-management']"
+        routerLinkActive="active-r"
+      >
+        <i class="fa-solid fa-users"></i>
+        Blogs
+      </a>
+    </li>
+    } @if(role == "doctor"){
+    <li class="nav-item">
+      <a
+        routerLink="available-dates"
+        class="nav-link text-custom"
+        routerLinkActive="active-r"
+      >
+        <i class="fa-solid fa-pen-to-square"></i>
+        Date management
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        routerLink="doctor-appointment"
+        class="nav-link text-custom"
+        routerLinkActive="active-r"
+      >
+        <i class="fa-solid fa-calendar-check"></i>
+        Appointment
+      </a>
+    </li>
+    }
+    <hr class="bg-light" />
+    @if(isLogged){
+    <li class="nav-item">
+      <button (click)="logOut()" class="nav-link text-custom">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+      </button>
+    </li>
+    }@else{
+    <li class="nav-item">
+      <a [routerLink]="['/login']" class="nav-link text-custom">
+        <i class="fa-solid fa-right-to-bracket"></i>
+        Login
+      </a>
+    </li>
+    }
+  </ul>
+</div>
+
+<style>
+  /* Additional styles */
+  .nav-link {
+    transition: background-color 0.3s ease;
+    color: #606161; /* Set the text color to #232f66 */
+  }
+
+  .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Light hover effect */
+  }
+</style>

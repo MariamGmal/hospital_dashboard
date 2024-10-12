@@ -1,0 +1,50 @@
+<div class="container">
+  <h3 style="color: #233763">Edit Blog</h3>
+  <div *ngIf="oldImage">
+    <h5>Current Image:</h5>
+    <img [src]="oldImage" alt="Old Blog Image" style="width: 300px; height: auto;" />
+  </div>
+  
+  <form (ngSubmit)="update()" class="bg-light p-3 rounded" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="txtTitle" class="form-label">Title</label>
+      <input
+        type="text"
+        name="title"
+        [(ngModel)]="formdata.title"
+        required
+        minlength="3"
+        class="form-control"
+        id="txtTitle"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="txtBody" class="form-label">Body</label>
+      <textarea
+        style="height: 100px;"
+        name="body"
+        [(ngModel)]="formdata.body"
+        required
+        minlength="10"
+        class="form-control"
+        id="txtBody"
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="image" class="form-label">Upload New Image</label>
+      <input
+        type="file"
+        name="image"
+        (change)="onFileSelected($event)"
+        class="form-control"
+        id="image"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      Update
+    </button>
+  </form>
+</div>

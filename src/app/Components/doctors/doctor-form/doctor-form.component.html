@@ -1,0 +1,185 @@
+
+<div *ngIf="showAddedAlert" class="success-alert alert alert-success" role="alert">
+  Success! Your action was completed successfully.
+</div>
+
+<form [formGroup]="doctorForm" (ngSubmit)="saveDoctor()">
+  <div class="form-group">
+    
+
+    <label>Name</label>
+    <input formControlName="name" class="form-control" />
+    <div *ngIf="doctorForm.get('name')?.invalid && doctorForm.get('name')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('name')?.errors?.['required']">Name is required.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>User Name</label>
+    <input formControlName="userName" class="form-control" />
+    <div *ngIf="doctorForm.get('userName')?.invalid && doctorForm.get('userName')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('userName')?.errors?.['required']">User Name is required.</small>
+      <small *ngIf="doctorForm.get('userName')?.errors?.['pattern']">
+        User Name must be lowercase letters, numbers, or special characters (-, _, .) only.
+      </small>
+      <small *ngIf="doctorForm.get('userName')?.errors?.['minlength']">User Name must be at least 10 characters long.</small>
+      <small *ngIf="doctorForm.get('userName')?.errors?.['maxlength']">User Name cannot exceed 15 characters.</small>
+    </div>
+  </div>
+  
+
+ 
+  <div class="form-group">
+    <label>Upload Image</label>
+    <input
+      type="file"
+      (change)="onImageSelected($event)"
+      class="form-control"
+      accept="image/png, image/jpeg, image/gif, image/webp"
+    />
+    <div *ngIf="imageError" class="text-danger">
+      <small>Allowed file types: PNG, JPEG, GIF, WEBP</small>
+    </div>
+  </div>
+
+
+        <div *ngIf="imagePreview" class="image-preview">
+          <div class="circle-image-container">
+        <img [src]="imagePreview" alt="Image Preview" class="img-thumbnail" style="max-width: 200px;" />
+      </div>
+    </div>
+
+  <div class="form-group">
+    <label>National ID</label>
+    <input formControlName="nationalID" class="form-control" />
+    <div *ngIf="doctorForm.get('nationalID')?.invalid && doctorForm.get('nationalID')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('nationalID')?.errors?.['required']">National ID is required.</small>
+      <small *ngIf="doctorForm.get('nationalID')?.errors?.['minlength']">National ID must be 14 digits.</small>
+      <small *ngIf="doctorForm.get('nationalID')?.errors?.['maxlength']">National ID must be 14 digits.</small>
+      <small *ngIf="doctorForm.get('nationalID')?.errors?.['pattern']">National ID must be numbers only.</small>
+    </div>
+  </div>
+
+  
+  <div class="form-group">
+    <label>Department</label>
+    <select formControlName="department" class="form-control">
+      <option value="" disabled>Select Department</option>
+      <option *ngFor="let department of departments" [value]="department._id">{{ department.name }}</option>
+    </select>
+    <div *ngIf="doctorForm.get('department')?.invalid && doctorForm.get('department')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('department')?.errors?.['required']">Department is required.</small>
+    </div>
+  </div>
+
+  <div formArrayName="availableDates">
+    <div *ngFor="let dateGroup of availableDates.controls; let i = index" [formGroupName]="i">
+      <div>
+        <label for="date">Date:</label>
+        <input type="date" formControlName="date" class="form-control" required />
+      </div>
+      <div>
+        <label for="fromTime">From Time:</label>
+        <input type="time" formControlName="fromTime" class="form-control" required />
+      </div>
+      <div>
+        <label for="toTime">To Time:</label>
+        <input type="time" formControlName="toTime" class="form-control" required />
+      </div>
+      <button type="button" class="btn btn-danger" (click)="removeDate(i)">Remove Date</button>
+    </div>
+  </div>
+
+  <!-- Button to add a new date entry -->
+  <button type="button" class="btn btn-primary" (click)="addDate()">Add New Date</button>
+
+  
+  <div class="custom-alert" *ngIf="showAlert">
+    <div class="custom-alert-content">
+      <p>Please select a date that is today or in the future.</p>
+      <button class="alert-close-btn" (click)="closeAlert()">OK</button>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label>Phone</label>
+    <input formControlName="phone" class="form-control" />
+    <div *ngIf="doctorForm.get('phone')?.invalid && doctorForm.get('phone')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('phone')?.errors?.['required']">Phone is required.</small>
+      <small *ngIf="doctorForm.get('phone')?.errors?.['pattern']">Phone must start with 011, 010, 015, or 012 followed by 8 digits.</small>
+    </div>
+  </div>
+  
+
+  <div class="form-group">
+    <label>Price</label>
+    <input formControlName="price" class="form-control" />
+    <div *ngIf="doctorForm.get('price')?.invalid && doctorForm.get('price')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('price')?.errors?.['required']">price is required.</small>
+    </div>
+  </div>
+
+
+
+  <div class="form-group">
+    <label>Email</label>
+    <input formControlName="email" type="email" class="form-control" />
+    <div *ngIf="doctorForm.get('email')?.invalid && doctorForm.get('email')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('email')?.errors?.['required']">Email is required.</small>
+      <small *ngIf="doctorForm.get('email')?.errors?.['pattern']">Invalid email format.</small>
+    </div>
+  </div>
+  
+
+  <div class="form-group">
+    <label>Password</label>
+    <input formControlName="password" type="password" class="form-control" />
+    <div *ngIf="doctorForm.get('password')?.invalid && doctorForm.get('password')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('password')?.errors?.['required']">Password is required.</small>
+      <small *ngIf="doctorForm.get('password')?.errors?.['minlength']">Password must be at least 6 characters long.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>Gender</label>
+    <select formControlName="gender" class="form-control">
+      <option value="" disabled>Select Gender</option>
+      <option value="male">Male</option>
+      <option value="female">Female</option>
+      <option value="other">Other</option>
+    </select>
+    <div *ngIf="doctorForm.get('gender')?.invalid && doctorForm.get('gender')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('gender')?.errors?.['required']">Gender is required.</small>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label>Date of Birth</label>
+    <input type="date" formControlName="dateOfBirth" class="form-control" />
+    <div *ngIf="doctorForm.get('dateOfBirth')?.invalid && doctorForm.get('dateOfBirth')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('dateOfBirth')?.errors?.['required']">Date of Birth is required.</small>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label>Experience</label>
+    <input formControlName="experience" type="number" class="form-control" />
+    <div *ngIf="doctorForm.get('experience')?.invalid && doctorForm.get('experience')?.touched" class="text-danger">
+      <small *ngIf="doctorForm.get('experience')?.errors?.['required']">Experience is required.</small>
+      <small *ngIf="doctorForm.get('experience')?.errors?.['min']">Experience cannot be negative.</small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>History</label>
+    <textarea formControlName="history" class="form-control"></textarea>
+  </div>
+
+  <div class="form-group">
+    <button class="btn btn-primary">Save Doctor</button>
+  </div>
+
+
+
+  
+</form>
